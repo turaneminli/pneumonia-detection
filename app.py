@@ -15,11 +15,19 @@ from werkzeug.utils import secure_filename
 # Custom metric
 from f1_score import f1_custom
 
+# For loading model which is on internet 
+import gdown
+
 # Define a flask app
 app = Flask(__name__)
 
+url_link = 'https://drive.google.com/uc?id=1St5SRPxmPyx-zPYlkrsYJzY-3or3tevK'
+
+gdown.download(
+        url_link, 'model_vgg.h5', quiet=False)
+        
 # Model saved with Keras model.save()
-MODEL_PATH = 'models/model_vgg.h5'
+MODEL_PATH = './model_vgg.h5'
 
 # Load your trained model
 model = load_model(MODEL_PATH, custom_objects={"f1_custom":f1_custom})        
@@ -37,7 +45,7 @@ def model_predict(img_path, model):
 
 def decode(num):
     if num==0: 
-        return "My algorithm says that it is healthy 😉"
+        return "Our algorithm says that it is healthy 😉"
     else:
         return "Unfortunately, our algorithm detected pneumonia 😟"
 
